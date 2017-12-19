@@ -10,23 +10,27 @@
     <view class="middle bgWhite">
       <view>
         <text class="icon iconfont icon-phone blue"></text>
-        <input type="tel" class="myInput" placeholder="请输入您的手机号" @input="getInput()" value="{{phone}}">
+        <input type="tel" class="myInput" id="phone" placeholder="请输入您的手机号" @input="input" value="{{phone}}">
       </view>
       <view>
         <text class="icon iconfont icon-lock blue"></text>
-        <input type="password" class="myInput" placeholder="请输入登录密码"  value="{{psw}}">
+        <input type="password" class="myInput" id="psw" placeholder="请输入登录密码" @input="input"  value="{{psw}}">
       </view>
       <!--<div class="blue marginTop change">修改密码</div>-->
     </view>
-    <view class="btn" >
+    <view class="btn" @tap="submitData">
       登录
     </view>
   </view>
 </template>
 
 <script>
-  import wepy from 'wepy'
-
+  import wepy from 'wepy';
+//  import md5 from '../../mixins/md5';
+  import input from '../../mixins/input';
+  var md5 = require('../../mixins/md5');
+  import http from '../../common/http';
+  import tips from '../../common/tips';
   export default class Index extends wepy.page {
     config = {
       navigationBarTitleText: '登录'
@@ -35,16 +39,29 @@
     }
 
     data = {
-      phone:'',
-      psw:''
-    }
 
+    }
+    mixins = [input]
     computed = {
 
     }
 
     methods = {
-
+      submitData(){
+        console.log(wepy.$instance.globalData.baseUrl)
+        http.post(wepy.$instance.globalData.baseUrl+'/login',{
+          "password":md5.hexMD5(this.input.psw),
+          "userName": this.input.phone
+        })
+//        wepy.request({
+//          url:wepy.$instance.globalData.baseUrl+'/login',
+//          data:{
+//            "password":md5.hexMD5(this.input.psw),
+//            "userName": this.input.phone
+//          },
+//          method:'POST'
+//        }).then((d) => console.log(d));
+      }
     }
     props = {
       twoWayValue: {

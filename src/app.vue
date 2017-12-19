@@ -25,7 +25,9 @@ export default class extends wepy.app {
   }
 
   globalData = {
-    userInfo: null
+    userInfo: null,
+    baseUrl: 'http://120.25.177.192/jfbApi'//test
+//    baseUrl: 'https://jfb.vshi5.com/jfbApi';//正式
   }
 
   constructor () {
