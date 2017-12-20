@@ -31,7 +31,7 @@
   var md5 = require('../../mixins/md5');
   import http from '../../common/http';
   import tips from '../../common/tips';
-  export default class Index extends wepy.page {
+  export default class Login extends wepy.page {
     config = {
       navigationBarTitleText: '登录'
     }
@@ -47,20 +47,18 @@
     }
 
     methods = {
-      submitData(){
+      async submitData(){
         console.log(wepy.$instance.globalData.baseUrl)
-        http.post(wepy.$instance.globalData.baseUrl+'/login',{
+        let res = await http.post('/login',{
           "password":md5.hexMD5(this.input.psw),
           "userName": this.input.phone
         })
-//        wepy.request({
-//          url:wepy.$instance.globalData.baseUrl+'/login',
-//          data:{
-//            "password":md5.hexMD5(this.input.psw),
-//            "userName": this.input.phone
-//          },
-//          method:'POST'
-//        }).then((d) => console.log(d));
+        console.log(res)
+        if(res.data){
+          wx.navigateTo({
+            url: '../index/home'
+          })
+        }
       }
     }
     props = {

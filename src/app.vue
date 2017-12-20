@@ -9,11 +9,12 @@
 <script>
 import wepy from 'wepy'
 import 'wepy-async-function'
-
+import Promise from 'promise-polyfill';
 export default class extends wepy.app {
   config = {
     pages: [
       'pages/login/login',
+      'pages/index/home',
       'pages/index/index'
     ],
     window: {
@@ -32,8 +33,10 @@ export default class extends wepy.app {
 
   constructor () {
     super()
-    this.use('requestfix')
+    this.use('promisify');
+    this.use('requestfix');
   }
+
 
   onLaunch() {
     this.testAsync()

@@ -6,34 +6,38 @@ const app = getApp();
 export default class http {
   static async request (method, url, data) {
     const param = {
-      url: url,
+      url:wepy.$instance.globalData.baseUrl+ url,
       method: method,
       data: data
     };
     Tips.loading();
     const res = await wepy.request(param);
-
+    Tips.loaded();
     console.log(res)
-    console.log(111)
-    // if (this.isSuccess(res)) {
-    //   return res.data.data;
-    // } else {
-    //   console.error(method, url, data, res);
-    //   throw this.requestException(res);
-    // }
+    if (this.isSuccess(res)) {
+      console.log('success')
+      return res.data;
+    } else {
+      return '请求失败'
+      console.error(method, url, data, res);
+      throw this.requestException(res);
+    }
   }
 
   /**
    * 判断请求是否成功
    */
   static isSuccess(res) {
-    const wxCode = res.code;
+    const wxCode = res.statusCode;
     // 微信请求错误
     if (wxCode !== 200) {
       return false;
+    }else{
+      return true;
     }
+
     const wxData = res.data;
-    return !(wxData && wxData.code !== 0);
+    return !(wxData && wxData.code != 0);
   }
 
   /**
@@ -41,7 +45,7 @@ export default class http {
    */
   static requestException(res) {
     const error = {};
-    error.statusCode = res.code;
+    error.statusCode = res.statusCode;
     const wxData = res.data;
     const serverData = wxData.data;
     if (serverData) {
