@@ -13,20 +13,53 @@ import Promise from 'promise-polyfill';
 export default class extends wepy.app {
   config = {
     pages: [
+
+      'pages/tabList/home',
       'pages/login/login',
-      'pages/index/home',
+      'pages/tabList/work',
+      'pages/tabList/board',
+      'pages/tabList/center',
+
       'pages/index/index'
     ],
+    tabBar: {
+      color: '#999999',
+      selectedColor:'#55caf5',
+      list: [
+        {
+          iconPath:'assets/img/tabbar/icon_index_nor.png',
+          selectedIconPath:'assets/img/tabbar/icon_index_pre.png',
+          pagePath: "pages/tabList/home",
+          text: "首页"
+        }, {
+          iconPath:'assets/img/tabbar/icon_gzt_nor.png',
+          selectedIconPath:'assets/img/tabbar/icon_gzt_pre.png',
+          pagePath: "pages/tabList/work",
+          text: "工作台"
+        }, {
+          iconPath:'assets/img/tabbar/icon_jfb_nor.png',
+          selectedIconPath:'assets/img/tabbar/icon_jfb_pre.png',
+          pagePath: "pages/tabList/board",
+          text: "积分榜"
+        }, {
+          iconPath:'assets/img/tabbar/icon_grzx_nor.png',
+          selectedIconPath:'assets/img/tabbar/icon_grzx_pre.png',
+          pagePath: "pages/tabList/center",
+          text: "个人中心"
+        }
+      ]
+    },
     window: {
       backgroundTextStyle: 'light',
       navigationBarBackgroundColor: '#fff',
-      navigationBarTitleText: 'WeChat',
+      navigationBarTitleText: '积分宝',
       navigationBarTextStyle: 'black'
     }
   }
 
   globalData = {
     userInfo: null,
+    userData:null,
     baseUrl: 'http://120.25.177.192/jfbApi'//test
 //    baseUrl: 'https://jfb.vshi5.com/jfbApi';//正式
   }
@@ -39,6 +72,14 @@ export default class extends wepy.app {
 
 
   onLaunch() {
+    if(!wx.getStorageSync('userData')){
+      wx.navigateTo({
+        url: 'pages/login/login'
+      })
+      return
+    }else{
+      wepy.$instance.globalData.userData=wx.getStorageSync('userData');
+    }
     this.testAsync()
   }
 

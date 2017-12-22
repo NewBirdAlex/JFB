@@ -5,17 +5,25 @@ const app = getApp();
 // HTTP工具类
 export default class http {
   static async request (method, url, data) {
+    var newObj = {};
+    if(wepy.$instance.globalData.userData){
+      newObj.userId=wepy.$instance.globalData.userData.userId;
+      newObj.token=wepy.$instance.globalData.userData.token;
+      for(let i in data){
+        if(!newObj[i]){
+          newObj[i]=data[i]
+        }
+      }
+    }
     const param = {
       url:wepy.$instance.globalData.baseUrl+ url,
       method: method,
-      data: data
+      data: newObj
     };
     Tips.loading();
     const res = await wepy.request(param);
     Tips.loaded();
-    console.log(res)
     if (this.isSuccess(res)) {
-      console.log('success')
       return res.data;
     } else {
       return '请求失败'

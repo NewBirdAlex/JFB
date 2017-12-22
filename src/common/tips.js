@@ -87,9 +87,9 @@ export default class Tips {
   static alert (title) {
     wx.showToast({
       title: title,
-      image: '/images/icons/alert.png',
+      image: '/assets/img/alert.png',
       mask: true,
-      duration: 500
+      duration: 1000
     });
     return new Promise((resolve, reject) => {
       setTimeout(() => {

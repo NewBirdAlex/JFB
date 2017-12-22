@@ -48,16 +48,24 @@
 
     methods = {
       async submitData(){
-        console.log(wepy.$instance.globalData.baseUrl)
+        if(!this.input.psw&&!this.input.phone){
+          tips.alert('请填写账号密码')
+          return
+        }
         let res = await http.post('/login',{
           "password":md5.hexMD5(this.input.psw),
           "userName": this.input.phone
         })
         console.log(res)
         if(res.data){
-          wx.navigateTo({
-            url: '../index/home'
+          wepy.$instance.globalData.userData=res.data;
+          console.log(wepy.$instance.globalData.userData)
+          wx.setStorageSync('userData', res.data);
+          wx.switchTab({
+            url: '../tabList/home'
           })
+        }else{
+          tips.alert(res.message);
         }
       }
     }
