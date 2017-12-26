@@ -1,0 +1,17 @@
+前提:我们已经拥有了从阿里图标库下载下来的一系列的字体图标文件
+1：找个其中的ttf格式的文件,然后打开https://transfonter.org/网站
+2：点击Add fonts按钮,加载ttf格式的那个文件
+3:选择下边的base64 encode改oof为on
+4:点击Convert按钮 进行转换
+5：转换后点击download下载
+6:下载下来后 找到stylesheet.css文件 添加类
+.iconfont {
+
+font-family: 'iconfont';
+
+font-weight: 500;
+
+font-style: normal;
+
+}
+7:找到我们之前阿里图标文件里面的iconfont.css文件将所有的:before拷贝到stylesheet.css文件中 然后我们就可以使用字体图标了 iconfont icon-mg-hotel

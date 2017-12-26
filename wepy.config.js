@@ -28,7 +28,7 @@ module.exports = {
       outputStyle: 'compressed'
     },*/
     babel: {
-      sourceMap: true,
+      sourceMap: false,
       presets: [
         //'env',
         "es2015",
@@ -64,16 +64,20 @@ if (prod) {
     uglifyjs: {
       filter: /\.js$/,
       config: {
+        compress: {
+          warning: false,
+          drop_console: true
+        }
       }
     },
     imagemin: {
       filter: /\.(jpg|png|jpeg)$/,
       config: {
         jpg: {
-          quality: 80
+          quality: 60
         },
         png: {
-          quality: 80
+          quality: 60
         }
       }
     }

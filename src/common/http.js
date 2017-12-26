@@ -14,6 +14,8 @@ export default class http {
           newObj[i]=data[i]
         }
       }
+    }else{
+      newObj = data;
     }
     const param = {
       url:wepy.$instance.globalData.baseUrl+ url,
@@ -41,7 +43,16 @@ export default class http {
     if (wxCode !== 200) {
       return false;
     }else{
-      return true;
+      console.log(res)
+      if(res.data.code=="400000"){
+
+        wx.reLaunch({
+          url: '../login/login'
+        });
+      }else{
+        return true;
+      }
+
     }
 
     const wxData = res.data;

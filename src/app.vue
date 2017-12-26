@@ -1,6 +1,6 @@
 <style lang="less">
 
-  @import './assets/css/stylesheet.wxss';
+  @import 'assets/css/stylesheet.wxss';
   @import 'assets/css/common';
   @import 'assets/css/reset.wxss';
 
@@ -73,9 +73,9 @@ export default class extends wepy.app {
 
   onLaunch() {
     if(!wx.getStorageSync('userData')){
-      wx.navigateTo({
+      wx.reLaunch({
         url: 'pages/login/login'
-      })
+      });
       return
     }else{
       wepy.$instance.globalData.userData=wx.getStorageSync('userData');

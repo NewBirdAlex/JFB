@@ -2,18 +2,18 @@
 <template>
   <view class="wrap bgWhite" >
     <view class="top" >
-      <image src="../../assets/img/hxbg.png" alt="">
-      <image src="../../assets/img/hx.png" alt="">
+      <image src="../../assets/img/hxbg.png" alt=""></image>
+      <image src="../../assets/img/hx.png" alt=""></image>
       <view>积分宝</view>
     </view>
 
     <view class="middle bgWhite">
       <view>
-        <text class="icon iconfont icon-phone blue"></text>
+        <text class=" iconfont icon-phone blue"></text>
         <input type="tel" class="myInput" id="phone" placeholder="请输入您的手机号" @input="input" value="{{phone}}">
       </view>
       <view>
-        <text class="icon iconfont icon-lock blue"></text>
+        <text class=" iconfont icon-lock blue"></text>
         <input type="password" class="myInput" id="psw" placeholder="请输入登录密码" @input="input"  value="{{psw}}">
       </view>
       <!--<div class="blue marginTop change">修改密码</div>-->
@@ -26,7 +26,6 @@
 
 <script>
   import wepy from 'wepy';
-//  import md5 from '../../mixins/md5';
   import input from '../../mixins/input';
   var md5 = require('../../mixins/md5');
   import http from '../../common/http';
@@ -49,12 +48,14 @@
     methods = {
       async submitData(){
         if(!this.input.psw&&!this.input.phone){
-          tips.alert('请填写账号密码')
+          tips.alert('请填写账号密码');
           return
         }
+        console.log(this.input.phone)
+        console.log(md5.hexMD5(this.input.psw))
         let res = await http.post('/login',{
-          "password":md5.hexMD5(this.input.psw),
-          "userName": this.input.phone
+          password:md5.hexMD5(this.input.psw),
+          userName: this.input.phone
         })
         console.log(res)
         if(res.data){

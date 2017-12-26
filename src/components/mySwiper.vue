@@ -9,7 +9,7 @@
             autoplay="{{autoplay}}" interval="{{interval}}" duration="{{duration}}">
       <block wx:for="{{imgUrls}}" wx:key="">
         <swiper-item>
-          <image src="{{item.cover}}" class="slide-image" mode="widthFix"/>
+          <image src="{{item.cover}}" class="slide-image" mode="widthFix"></image>
         </swiper-item>
       </block>
     </swiper>
@@ -38,13 +38,16 @@
 
     }
     async getSwiper(){
-      console.log(this.swipeType)
+
       let res = await http.post('/advert/listByCom',{
         companyId:wepy.$instance.globalData.userData.companyId,
         locationType:this.swipeType
       })
-      this.imgUrls = res.data.content;
-      this.$apply();
+      if(res.data){
+        this.imgUrls = res.data.content;
+        this.$apply();
+      }
+
     }
     methods = {
 
