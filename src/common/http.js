@@ -43,11 +43,11 @@ export default class http {
     if (wxCode !== 200) {
       return false;
     }else{
-      console.log(res)
-      if(res.data.code=="400000"){
 
+      if(res.data.code=="400000"){
+        console.log('here')
         wx.reLaunch({
-          url: '../login/login'
+          url: '/pages/login/login'
         });
       }else{
         return true;

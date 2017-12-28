@@ -51,16 +51,13 @@
           tips.alert('请填写账号密码');
           return
         }
-        console.log(this.input.phone)
-        console.log(md5.hexMD5(this.input.psw))
         let res = await http.post('/login',{
           password:md5.hexMD5(this.input.psw),
           userName: this.input.phone
         })
-        console.log(res)
+
         if(res.data){
           wepy.$instance.globalData.userData=res.data;
-          console.log(wepy.$instance.globalData.userData)
           wx.setStorageSync('userData', res.data);
           wx.switchTab({
             url: '../tabList/home'

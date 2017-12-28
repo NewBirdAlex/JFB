@@ -24,21 +24,21 @@
         <!--导航-->
         <view class="pt marginTop opItem fs28">
           <view class="item">
-              <text class="leftPart icon iconfont icon-zuzhijiagou"></text>
+            <text class="leftPart  iconfont icon-phone"></text>
               <view class="rightPart">
                 企业组织架构
                 <text class="fr iconfont icon-right"></text>
               </view>
           </view>
           <view class="item">
-            <text class="leftPart icon iconfont icon-zuzhijiagou"></text>
+            <text class="leftPart  iconfont icon-phone"></text>
             <view class="rightPart">
               我的任务
               <text class="fr iconfont icon-right"></text>
             </view>
           </view>
           <view class="item">
-            <text class="leftPart icon iconfont icon-zuzhijiagou"></text>
+            <text class="leftPart  iconfont icon-phone"></text>
             <view class="rightPart">
               我的日记
               <text class="fr iconfont icon-right"></text>
