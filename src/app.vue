@@ -14,7 +14,7 @@ import http from './common/http';
 export default class extends wepy.app {
   config = {
     pages: [
-
+      'pages/apply/applyMenu',
       'pages/tabList/home',
       'pages/login/login',
       'pages/tabList/work',
@@ -23,6 +23,7 @@ export default class extends wepy.app {
       'pages/approve/approveRecord',
       'pages/approve/approveList',
       'pages/approve/order',
+
       'pages/index/index'
     ],
     tabBar: {
@@ -118,7 +119,7 @@ export default class extends wepy.app {
         name:"申报积分",
         icon:'icon-daiban',
         color:'#fe6973',
-        router:'jfSelect',
+        router:'/pages/apply/applyMenu',
         show:false
       },
       {

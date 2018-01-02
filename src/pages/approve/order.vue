@@ -49,7 +49,10 @@
       </view>
 
       <div class="showImg" wx:if="{{orderDetail.missionPics}}">
-        <!--<img :src="item"  v-for="item in orderDetail.missionPics.split(',')" alt="">-->
+        <block wx:for="{{orderDetail.missionPics.split(',')}}" wx:key="">
+          <image src="{{item}}"   alt=""></image>
+
+        </block>
         <!--<scaleImg :imgList="orderDetail.missionPics.split(',')"></scaleImg>-->
       </div>
     </view>
