@@ -14,6 +14,7 @@ import http from './common/http';
 export default class extends wepy.app {
   config = {
     pages: [
+      'pages/apply/apply',
       'pages/apply/applyMenu',
       'pages/tabList/home',
       'pages/login/login',
