@@ -10,11 +10,11 @@
     <view class="middle bgWhite">
       <view>
         <text class=" iconfont icon-phone blue"></text>
-        <input type="tel" class="myInput" id="phone" placeholder="请输入您的手机号" @input="input" value="{{phone}}">
+        <input type="tel" class="myInput" id="phone" placeholder="请输入您的手机号" @input="input" value="{{phone}}"/>
       </view>
       <view>
         <text class=" iconfont icon-lock blue"></text>
-        <input type="password" class="myInput" id="psw" placeholder="请输入登录密码" @input="input"  value="{{psw}}">
+        <input type="password" class="myInput" id="psw" placeholder="请输入登录密码" @input="input"  value="{{psw}}"/>
       </view>
       <!--<div class="blue marginTop change">修改密码</div>-->
     </view>

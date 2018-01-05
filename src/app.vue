@@ -14,9 +14,13 @@ import http from './common/http';
 export default class extends wepy.app {
   config = {
     pages: [
-      'pages/apply/apply',
       'pages/apply/applyMenu',
+
+      'pages/apply/apply',
+
       'pages/tabList/home',
+
+      'pages/staff/staff',
       'pages/login/login',
       'pages/tabList/work',
       'pages/tabList/board',
@@ -182,7 +186,7 @@ export default class extends wepy.app {
       },
     ],
     baseUrl: 'http://120.25.177.192/jfbApi'//test
-//    baseUrl: 'https://jfb.vshi5.com/jfbApi';//正式
+//    baseUrl: 'https://jfb.vshi5.com/jfbApi'//正式
   }
 
   constructor () {

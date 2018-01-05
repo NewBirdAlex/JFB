@@ -24,7 +24,7 @@
     <!--list-->
     <view class=" grayBg">
       <block wx:for="{{list2}}" wx:key="">
-        <view @tap="go(item)" class=" paddingAll marginBottom bgWhite lh50" >
+        <view @tap="go({{item}})" class=" paddingAll marginBottom bgWhite lh50" >
           <view class="fs30 ">{{item.title}}</view>
           <view class="fs26 lh30 littleSpace">{{item.context}}</view>
           <view class="fs28 littleSpace">
@@ -145,7 +145,10 @@
         this.chooseMissionType();
       },
       go(item){
-
+        console.log(item);return
+        wx.navigateTo({
+          url: '/pages/apply/apply?mission=true&id='+item.id//实际路径要写全
+        })
       }
     }
     reset(){
