@@ -145,9 +145,9 @@
         this.chooseMissionType();
       },
       go(item){
-        console.log(item);return
+        console.log(item);
         wx.navigateTo({
-          url: '/pages/apply/apply?mission=true&id='+item.id//实际路径要写全
+          url: '/pages/apply/apply?mission=false&id='+item.id+'&type='+this.type//实际路径要写全
         })
       }
     }

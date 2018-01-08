@@ -77,6 +77,7 @@
 
     data = {
       beizhu:"",
+      type:'',
       chaosongren:'',
       shenpiren:'',
       newImgList:'http://120.25.177.192/imghouse/jfb/upload/image/2017/7/2/g0hb568H52zi3y5iO8uFRByCoX2i1DPh_$xxx$05_05.jpg',
@@ -123,34 +124,34 @@
     }
 
     methods = {
-      subData(){
+      async subData(){
         let that = this;
         if(that.peopleList.length==0){
           Tips.alert('选择申请人');
           return
         }
         let score = [];
-        if(this.$route.params.mission=='true'){
+        if(this.mission=='true'){
           score.push(this.detail.score);
         }else{
           this.peopleList.forEach(item=>{
             score.push(item.selectAddScore)
           })
         }
-        //审批人
-        if(approveUserId.length==0){
-          Tips.alert('请选择审批人'); return
-        }
+
         let approveUserId = [];
         if(this.approveUserList){
           this.approveUserList.forEach(item=>{
             approveUserId.push(item.id);
           })
         }
-
+        //审批人
+        if(approveUserId.length==0){
+          Tips.alert('请选择审批人'); return
+        }
         //被审批人
         let beApproveUserId = [];
-        if(this.$route.params.mission=='true'){
+        if(this.mission=='true'){
           beApproveUserId.push(this.userMessage.userId)
         }else{
           this.peopleList.forEach(item=>{
@@ -172,11 +173,11 @@
           if(this.detail.rootId==12) type = 3;
           if(this.detail.rootId==13) type = 2;
         }else{
-          type=this.$route.params.type;
+          type=this.type;
         }
-        this.$http.post('/missionApprove/submitMissionApprove', {
+        let res =await http.post('/missionApprove/submitMissionApprove', {
           addScore: score.join(','),
-          aimId: this.$route.params.id,
+          aimId: this.id,
           approveContext: this.detail.context,
           approveRemark: this.inputData[0].content,
           approveTitle: this.detail.title,
@@ -188,18 +189,14 @@
           type:type,
           submitType:2
         })
-          .then(function (response) {
-            if(response.data.code=='200000'){
-              that.$toast({
-                message:'成功',
-                duration:1000
-              })
-              that.$router.go(-1);
-            }
-          })
-          .catch(function (error) {
-            console.log(error);
-          });
+        if(res.data){
+          if(res.code=='200000'){
+            Tips.alert('提交成功')
+//            wx.navigatorback();
+          }
+        }else{
+          Tips.alert(res.message)
+        }
       },
       getStaff(){
         wx.navigateTo({
@@ -273,9 +270,11 @@
         wx.removeStorageSync('copyStaffList');
       }
     }
-    onLoad() {
+    onLoad(query) {
 
-      this.id=3828;
+      this.id=query.id;
+      this.mission=query.mission;
+      this.type=query.type;
       this.$apply();
       this.getDetail();
     }

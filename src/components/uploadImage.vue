@@ -58,7 +58,23 @@
           success: function (res) {
             // 返回选定照片的本地文件路径列表，tempFilePath可以作为img标签的src属性显示图片
             var tempFilePaths = res.tempFilePaths;
-            tempFilePaths.forEach(item=>that.imageList.push(item));
+
+            tempFilePaths.forEach(item=>{
+              that.imageList.push(item);
+              //upload
+
+            });
+            console.log(wepy.$instance.globalData.baseUrl)
+            wx.uploadFile({
+              url:wepy.$instance.globalData.baseUrl+'/imageUpload/imgUploadFile',
+              filePath: tempFilePaths[0],
+              name: 'file',
+              success: function(res2){
+                console.log(333)
+                var data = res2.data
+                //do something
+              }
+            })
             that.$apply();
           }
         })
