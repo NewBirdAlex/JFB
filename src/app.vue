@@ -11,9 +11,12 @@ import wepy from 'wepy'
 import 'wepy-async-function'
 import Promise from 'promise-polyfill';
 import http from './common/http';
+
 export default class extends wepy.app {
   config = {
     pages: [
+      'pages/public/showRange',
+      'pages/public/publicMission',
       'pages/apply/applyMenu',
 
       'pages/apply/apply',
