@@ -15,13 +15,18 @@ import http from './common/http';
 export default class extends wepy.app {
   config = {
     pages: [
-      'pages/public/showRange',
+      'pages/tabList/home',
+
+      'pages/public/announcement',
+
+
       'pages/public/publicMission',
+
+      'pages/public/showRange',
       'pages/apply/applyMenu',
 
       'pages/apply/apply',
 
-      'pages/tabList/home',
 
       'pages/staff/staff',
       'pages/login/login',
@@ -79,7 +84,7 @@ export default class extends wepy.app {
         name:"发布任务",
         icon:'icon-faburenwu',
         color:'#fa6e77',
-        router:'/publicMission'
+        router:'/pages/public/publicMission'
       },
       {
         name:"领导表扬",
@@ -97,7 +102,7 @@ export default class extends wepy.app {
         name:"发布公告",
         icon:'icon-gonggao',
         color:'#fd8f64',
-        router:'/announcement'
+        router:'/pages/public/announcement'
       }
     ],
     myStation:[

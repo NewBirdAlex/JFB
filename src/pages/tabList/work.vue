@@ -23,12 +23,15 @@
     <view class="normalTille grayBg">管理应用（仅管理员可见）</view>
     <view class="overflow">
       <block wx:for="{{adminStation}}" wx:key="">
-        <view class="vpadding stationItem" wx:if="{{item.show}}">
-          <text class="vline"></text>
-          <!--<view > <text class="icon iconfont {{item.icon}}" style="color:{{item.color}}"></text></view>-->
-          <image class="iconImage" src="{{item.moduleCover}}" alt=""></image>
-          <view>{{item.name}}</view>
-        </view>
+        <navigator url="{{item.router}}">
+          <view class="vpadding stationItem" wx:if="{{item.show}}">
+            <text class="vline"></text>
+            <!--<view > <text class="icon iconfont {{item.icon}}" style="color:{{item.color}}"></text></view>-->
+            <image class="iconImage" src="{{item.moduleCover}}" alt=""></image>
+            <view>{{item.name}}</view>
+          </view>
+        </navigator>
+
       </block>
     </view>
     <!--我得应用-->

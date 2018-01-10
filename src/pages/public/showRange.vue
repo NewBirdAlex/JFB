@@ -1,6 +1,6 @@
 
 <template>
-  <view class=" " >
+  <view class=" " style="padding-bottom: 100rpx;" >
     <block wx:for="{{list}}" wx:key="index">
       <view class="paddingAll borderBottom">
         {{item.name}}
@@ -12,18 +12,12 @@
     <view class="all">
 
       全选
-      <text class="gray">
-      （不选择默认为单选）
-      </text>
-
-      <text class="fr cl" @click="chooseAll" v-if="!selectAll">
-
-      </text>
-      <text @click="chooseAll" class="icon iconfont icon-gou blue fs36 fr"
-            v-if="selectAll"></text>
+      <text class="gray">（不选择默认为单选）</text>
+      <text class="fr cl" @tap="chooseAll" wx:if="{{!selectAll}}"></text>
+      <text @tap="chooseAll" class="icon iconfont icon-gou blue fs36 fr" wx:if="{{selectAll}}"></text>
     </view>
 
-    <view class="confBtn" @click="confirmSel">确认选择</view>
+    <view class="confBtn" @tap="confirmSel">确认选择</view>
   </view>
 </template>
 
@@ -40,8 +34,11 @@
     }
 
     data = {
+      selectAll:false,
       pageNumber:1,
       pageSize:20,
+      lastPage:false,
+      loading:false,
       list:[]
     }
     mixins = [input]
@@ -50,19 +47,46 @@
     }
 
     methods = {
+      chooseAll(){
+        this.selectAll=!this.selectAll;
+        this.list.forEach(item=>{
+          item.ticket=this.selectAll;
+        });
+
+        this.$apply();
+      },
+      confirmSel(){
+        let str = '';
+        let arr = [];
+        this.list.forEach(function (item) {
+          if (item.ticket) {
+            arr.push(item)
+          }
+        });
+        wx.setStorageSync('showRange', arr);
+        wx.navigateBack();
+      },
       selApartment(index){
         this.list[index].ticket=!this.list[index].ticket;
         this.$apply();
       }
     }
+     onReachBottom(){
+      if(!this.lastPage&&!this.loading){
+        this.getList();
+      }
+    }
     async getList(){
       let that = this;
+      this.loading=true;
       let res = await http.post('/companyUser/departmentList',{
         pageNumber: this.pageNumber,
         pageSize: this.pageSize
       });
       if(res.data){
-        console.log(res)
+        this.pageNumber+=1;
+        this.loading=true;
+        if(res.data.last) this.lastPage=true;
         that.list=res.data.content ;
         that.list.forEach(item=>item.ticket=false);
         this.$apply();
@@ -83,12 +107,16 @@
 
 <style lang="less">
   @import "../../assets/css/common";
+  .confBtn{
+    position: fixed;
+    bottom:0;
+    let:20rpx;
+    width: 710rpx;
+  }
   .all{
     .paddingAll;
     .borderBottom;
     font-size: @fs30;
-    height: 0.5rem;
-    line-height: 0.5rem;
   }
   .cl{
     width: 40rpx;
