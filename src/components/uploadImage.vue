@@ -28,21 +28,31 @@
 </template>
 <script>
   import wepy from 'wepy'
+  import tips from '../common/tips';
 
   export default class UploadImage extends wepy.component {
     data = {
-      imageList:[]
+      imageList:[],
+      imgLink:[]
     }
     props={
-
+      imgUrl:{
+        type:String,
+        twoWay:true
+      }
     }
     events = {
 
     }
-
+    watch={
+      imageList(val){
+        console.log(val)
+        this.imgUrl=this.imgLink.join(',')
+      }
+    }
     methods = {
       previewImage(currentImage){
-        console.log(currentImage)
+        console.log(currentImage);
         wx.previewImage({
           current: currentImage, // 当前显示图片的http链接
           urls: this.imageList // 需要预览的图片http链接列表
@@ -58,31 +68,40 @@
           success: function (res) {
             // 返回选定照片的本地文件路径列表，tempFilePath可以作为img标签的src属性显示图片
             var tempFilePaths = res.tempFilePaths;
+            tips.loading();
+            let num = 0;
+            for(let i = 0;i<tempFilePaths.length;i++){
+              wx.uploadFile({
+                url:wepy.$instance.globalData.baseUrl+'/imageUpload/imgUploadFile',
+                filePath: tempFilePaths[i],
+                name: 'file',
+                success: function(resdata){
+                  console.log(resdata);
 
-            tempFilePaths.forEach(item=>{
-              that.imageList.push(item);
-              //upload
+                  if(resdata.statusCode==200){
+                    let obj = JSON.parse(resdata.data);
+                    console.log(that.imageList);
+                    that.imageList.push(tempFilePaths[i]);
+                    that.imgLink.push(obj.data.url);
+                  }
+                  num++;
+                  if(num==tempFilePaths.length){
+                    tips.loaded();
+                  }
+                  that.$apply();
+                }
+              })
+            }
 
-            });
-            console.log(wepy.$instance.globalData.baseUrl)
-            wx.uploadFile({
-              url:wepy.$instance.globalData.baseUrl+'/imageUpload/imgUploadFile',
-              filePath: tempFilePaths[0],
-              name: 'file',
-              success: function(res2){
-                console.log(333)
-                var data = res2.data
-                //do something
-              }
-            })
-            that.$apply();
           }
         })
       }
     }
 
     onLoad () {
-
+      if(this.imgUrl){
+        this.imageList = this.imgUrl.split(',')
+      }
     }
   }
 </script>

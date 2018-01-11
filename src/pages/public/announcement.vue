@@ -55,7 +55,9 @@
         });
         if(res.code==200000){
           tips.alert('发布公告成功');
-          wx.navigateBack();
+          setTimeout(_=>{
+            wx.navigateBack();
+          },1000)
         }
       }
     }

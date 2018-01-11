@@ -43,7 +43,7 @@
   </view>
 
   <!--upload-->
-  <uploadImage></uploadImage>
+  <uploadImage :imgUrl="imgList"></uploadImage>
   <!--approve-->
   <approveStaff :approveStaff.sync="approveUserList"></approveStaff>
   <!--copy-->

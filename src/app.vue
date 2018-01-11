@@ -16,18 +16,13 @@ export default class extends wepy.app {
   config = {
     pages: [
       'pages/tabList/home',
-
+      'pages/daily/dailyMenu',
       'pages/public/announcement',
-
-
+      'pages/public/announcementList',
       'pages/public/publicMission',
-
       'pages/public/showRange',
       'pages/apply/applyMenu',
-
       'pages/apply/apply',
-
-
       'pages/staff/staff',
       'pages/login/login',
       'pages/tabList/work',
@@ -118,7 +113,7 @@ export default class extends wepy.app {
         name:"工作日志",
         icon:'icon-rizhi',
         color:'#84d76f',
-        router:'/workDiary',
+        router:'/pages/daily/dailyMenu',
         show:false
       },
       {
@@ -139,7 +134,7 @@ export default class extends wepy.app {
         name:"公告",
         icon:'icon-gonggao1',
         color:'#feaa3b',
-        router:'/announcementList',
+        router:'/pages/public/announcementList',
         show:false
       },
       {
