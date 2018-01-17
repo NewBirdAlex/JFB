@@ -1,16 +1,16 @@
 
 <template>
-  <view class="paddingLeft paddingRight " >
-    <view class="content" >
+  <view class="" >
+    <view class="content " >
 
-      <view class="head fs30">
+      <view class="head fs30 paddingLeft paddingRight ">
         <image src="{{orderDetail.userAvatar||'../../assets/img/defaultHead.png'}}"  alt=""></image>
         <text>{{orderDetail.userName}}</text>
         <text class="yellow fr" wx:if="{{orderDetail.checkStatus==1}}">等待审批</text>
         <text class="green fr" wx:if="{{orderDetail.checkStatus==2}}">审批通过</text>
         <text class="red fr" wx:if="{{orderDetail.checkStatus==3}}">审批不通过</text>
       </view>
-      <view class="myUl lh50">
+      <view class="myUl lh50 fs30 paddingLeft paddingRight ">
         <view>
           <text class="gray">审批编号</text>
           <text class="fr">{{orderDetail.approveCode}}</text>
@@ -48,13 +48,61 @@
         </view>
       </view>
 
-      <div class="showImg" wx:if="{{orderDetail.missionPics}}">
-        <block wx:for="{{orderDetail.missionPics.split(',')}}" wx:key="">
-          <image src="{{item}}"   alt=""></image>
-
+      <view class="showImg" wx:if="{{orderDetail.missionPics}}">
+        <block wx:for="{{imgList}}" wx:key="">
+          <image src="{{item}}" @tap = 'previewImg({{item}})'   alt=""></image>
         </block>
         <!--<scaleImg :imgList="orderDetail.missionPics.split(',')"></scaleImg>-->
-      </div>
+      </view>
+
+      <view class="progress" wx:if="{{orderDetail.approveUserList&&orderDetail.approveUserList.length}}">
+        <view class="prog_list" wx:for="{{orderDetail.approveUserList}}" wx:key="">
+          <view class="time">
+            <text class="icon iconfont icon-gou blue" wx:if="{{item.checkStatus==0||item.checkStatus==2}}"></text>
+            <text class="icon iconfont icon-wait gray" wx:if="{{item.checkStatus==1}}"></text>
+            <text class="icon iconfont icon-reject red" wx:if="{{item.checkStatus==3}}"></text>
+          </view>
+          <view class="content paddingAll">
+            <view class="left">
+              <image src="{{item.userAvatar||'../../assets/img/defaultHead.png'}}" wx:if="{{item.userAvatar}}" class="headPicture" alt=""></image>
+            </view>
+            <view class="right">
+              <view class="overflow">
+                {{item.userName}}
+                <text class="yellow fr" wx:if="{{item.checkStatus==0}}">提交审批</text>
+                <text class="yellow fr" wx:if="{{item.checkStatus==1}}">审批中</text>
+                <text class="green fr" wx:if="{{item.checkStatus==2}}">审批通过</text>
+                <text class="red fr" wx:if="{{item.checkStatus==3}}">审批不通过</text>
+                <text class="red fr" wx:if="{{item.checkStatus==4}}">等待审批</text>
+
+              </view>
+              <view class="overflow">
+                <text class="gray">{{item.departmentName}}</text>
+                <text class="gray fr">{{item.approveDate}}</text>
+              </view>
+              <view class="triangle-left"></view>
+            </view>
+            <view class="recommend">
+              <view class="borderTop" wx:if="{{item.context}}">
+                {{item.context}}
+              </view>
+              <view class="rec_img" wx:if="{{item.pics}}">
+                <block wx:for="{{item.pics.split(',')}}" wx:key="" wx:for-item="itemname">
+                  <image src="{{itemname}}" alt="" ></image>
+                </block>
+
+              </view>
+            </view>
+          </view>
+        </view>
+      </view>
+
+    </view>
+
+    <view class="opBtn"  wx:if="{{orderDetail.btnStatus=='1'}}">
+      <text class="green" @tap="go(2)"> 同意</text>
+      <text class="yellow" @tap="go(3)"> 拒绝</text>
+      <text class="blue" @tap="go(4)"> 撤回</text>
     </view>
   </view>
 </template>
@@ -72,7 +120,8 @@
 
     data = {
       id:'',
-      orderDetail:{}
+      orderDetail:{},
+      imgList:[]
     }
     mixins = []
     computed = {
@@ -80,7 +129,29 @@
     }
 
     methods = {
+      previewImg(item){
+        wx.previewImage({
+          current: item, // 当前显示图片的http链接
+          urls: this.imgList // 需要预览的图片http链接列表
+        })
+      },
+      async go(type){
+        let that = this;
 
+        if (type == 4) {
+          //cancel
+          let res = await http.post('/missionApprove/cancelApprove', {
+            id: this.id
+          })
+          if(res.code==200000){
+
+          }
+        } else {
+          wx.navigateTo({
+            url: `/pages/apply/spDetail?type=${type}&id=${this.id}`
+          })
+        }
+      }
     }
     async getDetail() {
 
@@ -89,6 +160,9 @@
       })
       if(res.data){
         this.orderDetail = res.data;
+        if(this.orderDetail.missionPics){
+          this.imgList = this.orderDetail.missionPics.split(',')
+        }
         this.$apply();
       }
     }
@@ -183,8 +257,8 @@
         width: 58rpx;
         float: left;
         height: 20rpx;
-        i {
-          margin-top: 60rpx;
+        .iconfont{
+          margin-top: 64rpx;
           display: inline-block;
         }
       }

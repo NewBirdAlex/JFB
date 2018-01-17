@@ -91,7 +91,10 @@
         })
         if(res.code==200000){
           Tips.alert('提交任务成功');
-          wx.navigateBack();
+          setTimeout(()=>{
+            wx.navigateBack();
+          },1000)
+
         }else{
           Tips.alert(res.data.message);
         }

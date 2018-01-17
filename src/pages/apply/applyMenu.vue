@@ -19,7 +19,7 @@
     <!--search-->
     <view class="marginAll bgWhite search">
       <text class="icon iconfont icon-sousuo"></text>
-      <input type="text" class="myInput fs26 marginLeft" value="{{searchKeyword}}" style="width: 500rpx" placeholder="请输入你要找的关键字" @input="getSearch" >
+      <input type="text" class="myInput fs26 marginLeft" value="{{searchKeyword}}" style="width: 500rpx" placeholder="请输入你要找的关键字" @input="getSearch" />
     </view>
     <!--list-->
     <view class=" grayBg">

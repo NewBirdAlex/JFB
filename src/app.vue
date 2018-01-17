@@ -16,6 +16,9 @@ export default class extends wepy.app {
   config = {
     pages: [
       'pages/tabList/home',
+
+      'pages/apply/missionList',
+
       'pages/daily/dailyMenu',
       'pages/public/announcement',
       'pages/public/announcementList',
@@ -23,6 +26,7 @@ export default class extends wepy.app {
       'pages/public/showRange',
       'pages/apply/applyMenu',
       'pages/apply/apply',
+      'pages/apply/spDetail',
       'pages/staff/staff',
       'pages/login/login',
       'pages/tabList/work',
@@ -120,7 +124,7 @@ export default class extends wepy.app {
         name:"悬赏任务",
         icon:'icon-renwuxuanshang',
         color:'#feaa3b',
-        router:'/missionList/1',
+        router:'/pages/apply/missionList?type=1',
         show:false
       },
       {

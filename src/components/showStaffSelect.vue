@@ -33,12 +33,20 @@
     margin-left: 20rpx;
     margin-right: 20rpx;
   }
+  .iconfont{
+    font-size: 50rpx;
+    vertical-align: middle;
+  }
 </style>
 <template>
   <view class=" wrap2 bgWhite">
     <block wx:for="{{staffList}}" wx:key="">
       <view class="inner">
-        <text class="iconfont icon-close48 marginRight" @tap="deleteStaff({{index}})"></text>
+        <view style="display: inline-block;" wx:if="{{mySelf}}">
+          <text  class=" cl marginRight" @tap="selectPerson({{index}})" wx:if="{{!item.select}}"></text>
+          <text  @tap="selectPerson({{index}})" class="icon iconfont icon-gou blue marginRight" wx:else></text>
+        </view>
+
         <image src="{{item.userAvatar||'../../assets/img/defaultHead.png'}}" class="headPicture" alt=""></image>
         <text>{{item.userName}}</text>
         <view class="fr">
@@ -51,11 +59,6 @@
         </view>
       </view>
     </block>
-    <view class="bgWhite paddingAll lh40 fs28" v-if="$route.params.mission!='true'">
-      <text>全选积分</text>
-      <text class="gray">(选择可批量修改申请的积分)</text>
-      <view class="fr  cl" :class="{'border':!selAll}" @tap="selectAll"><text style="font-size: 40rpx;" class=" iconfont icon-gou blue" wx:if="{{selAll}}"></text></view>
-    </view>
   </view>
 </template>
 <script>
@@ -69,6 +72,10 @@
       count:0
     }
     props={
+      mySelf:{
+        type:[Boolean,String],
+        default:true
+      },
       staffList:{
         type:Array,
         twoWay: true
@@ -82,7 +89,7 @@
     }
     watch={
       staffList(val){
-        console.log(val.length)
+
         if(val.length!=this.count){
           for(let i = 0;i<val.length-this.count;i++){
             this.selectIndex.push(0);//init point
@@ -93,13 +100,11 @@
       }
     }
     methods = {
-      selectAll(){
-        this.selAll=!this.selAll;
+      selectPerson(index){
+        this.staffList[index].select=!this.staffList[index].select;
+
         this.$apply();
-      },
-      deleteStaff(index){
-        this.staffList.splice(index,1);
-        this.selectIndex.splice(index,1);
+        console.log(this.staffList[index].select)
       },
       bindPickerChange: function(index,event) {
         if(this.selAll){

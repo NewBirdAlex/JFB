@@ -34,10 +34,15 @@
 
   <!--people list -->
   <view class="paddingAll borderBottom fs30 bgWhite marginTop">申请人 <text class="gray">(选择可批量修改申请的积分)</text></view>
-  <showStaff :scoreRange.sync="scoreRange" :staffList.sync="peopleList"></showStaff>
+  <showStaff wx:if="{{mission!='true'}}" :scoreRange.sync="scoreRange" :staffList.sync="peopleList"></showStaff>
 
+  <view wx:else class="paddingAll bgWhite fs30 lh50">
+    <image class="headPicture marginRight"  src="{{userMessage.userAvatar}}" alt=""></image>
+    <text>{{userMessage.userName}}</text>
+    <text class="fr " style="margin-top: 0.2rem"> {{detail.score}}分</text>
+  </view>
   <!--choose staff-->
-  <view class="paddingAll bgWhite marginTop fs30" @tap="getStaff">
+  <view wx:if="{{mission!='true'}}" class="paddingAll bgWhite marginTop fs30" @tap="getStaff">
     选择员工
     <text class="iconfont icon-right fr"></text>
   </view>
@@ -76,6 +81,7 @@
     }
 
     data = {
+      userMessage:wepy.$instance.globalData.userData,
       beizhu:"",
       type:'',
       chaosongren:'',
@@ -192,7 +198,7 @@
         if(res.data){
           if(res.code=='200000'){
             Tips.alert('提交成功')
-//            wx.navigatorback();
+            wx.navigatorback();
           }
         }else{
           Tips.alert(res.message)
