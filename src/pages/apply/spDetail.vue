@@ -2,22 +2,23 @@
 <template>
   <view class=" " >
     <view class="wrap">
-      <view wx:if="{{needRange}}">
-        <showStaffSelect :mySelf="selectSelf" :scoreRange.sync="scoreRange" :staffList.sync="mainPerson"></showStaffSelect>
+      <!--<view wx:if="{{needRange}}">-->
+        <!--<showStaffSelect :mySelf="selectSelf" :scoreRange.sync="scoreRange" :staffList.sync="mainPerson"></showStaffSelect>-->
 
-      </view>
-      <view wx:else>
-        <block wx:for="{{mainPerson}}"  wx:key="">
-          <view  class="paddingAll bgWhite">
-            <image src="{{item.userAvatar}}" class="headPicture marginRight" alt=""></image>
-            {{item.userName}}
-            <input type="text" class="fr myInput tar fs30 marginTop" placeholder="输入分数" />
-          </view>
-        </block>
-      </view>
-      <!--others-->
-      <view class="fs30 paddingAll bgWhite marginTop borderBottom">他们也申请了 <text class="gray">(勾选后可以一次性审批)</text></view>
-      <otherPeople :scoreRange.sync="scoreRange" :staffList.sync="peopleList"></otherPeople>
+      <!--</view>-->
+      <!--<view wx:else>-->
+        <!--<block wx:for="{{mainPerson}}"  wx:key="">-->
+          <!--<view  class="paddingAll bgWhite">-->
+            <!--<image src="{{item.userAvatar}}" class="headPicture marginRight" alt=""></image>-->
+            <!--{{item.userName}}-->
+            <!--<input type="text" class="fr myInput tar fs30 marginTop" placeholder="输入分数" @input="" />-->
+          <!--</view>-->
+        <!--</block>-->
+      <!--</view>-->
+      <!--&lt;!&ndash;others&ndash;&gt;-->
+      <!--<view class="fs30 paddingAll bgWhite marginTop borderBottom" wx:if="{{peopleList.length}}">他们也申请了 <text class="gray">(勾选后可以一次性审批)</text></view>-->
+      <!--<otherPeople :scoreRange.sync="scoreRange" :staffList.sync="peopleList"></otherPeople>-->
+      <showStaffSelect :scoreRange.sync="scoreRange" :staffList.sync="peopleList"></showStaffSelect>
 
       <view class="fs30 paddingAll bgWhite marginTop borderBottom">审批备注</view>
       <textarea name="" id="noteContent" placeholder="输入审批备注信息" value="{{noteContent}}" @input="input"></textarea>
@@ -75,33 +76,37 @@
         let bol = true;
         let otherIds = [];
         let otherScores = [];
+//        if(this.scoreRange){
+//          otherIds[0]=this.mainPerson[0].id;
+//          otherScores[0]=this.mainPerson[0].addScore;
+//        }
+        if(this.peopleList.length){
+          this.peopleList.forEach(item=>{
+            if(item.select){
+              otherIds.push(item.id);
+              otherScores.push(item.addScore)
+            }
+          });
+        }
 
-        this.peopleList.forEach(item=>{
-          if(item.select){
-            otherIds.push(item.id);
-            otherScores.push(item.addScore)
-          }
-        });
         console.log(otherIds.join(','))
         console.log(otherScores.join(','))
-        this.$http.post('/missionApprove/approveById', {
-          approveRemark: this.noteContent,
-          checkedStatus: this.$route.params.type,
+        let res = await http.post('/missionApprove/approveById', {
+          approveRemark: this.input.noteContent,
+          checkedStatus: this.type,
           //aimId:this.$route.params.id,
           otherIds: otherIds.join(','),
           otherScores: otherScores.join(','),
           pics: this.imgList
-        })
-          .then(function (response) {
-
-            if(response.data.code=='200000'){
-              that.$toast('成功');
-              that.$router.go(-2);
-            }
-          })
-          .catch(function (error) {
-            console.log(error);
-          });
+        });
+        if(res.code==200000){
+          tips.alert('操作成功');
+          setTimeout(_=>{
+            wx.navigateBack({
+              delta: 2
+            })
+          },1000);
+        }
       }
     }
     props = {
@@ -155,7 +160,8 @@
           userAvatar:that.spOrder.userAvatar,
           select:true
         }
-        that.mainPerson.unshift(selfData)
+        //that.mainPerson.unshift(selfData)
+        that.peopleList.unshift(selfData);
 
         //11 品德积分12 行为积分13 业绩积分
         if(that.spOrder.rootId==11||that.spOrder.rootId==12||that.spOrder.rootId==13){
@@ -171,6 +177,9 @@
     onLoad(query) {
       this.id = query.id;
       this.type = query.type;
+//      this.id="204604";
+//      this.type=2;
+
       this.type==2?this.keyword='通过':this.keyword='拒绝';
       this.getList();
       this.getDetail();

@@ -40,23 +40,32 @@
 </style>
 <template>
   <view class=" wrap2 bgWhite">
-    <block wx:for="{{staffList}}" wx:key="">
+    <block wx:for="{{staffList}}" wx:key="index">
+      <view class="fs30 paddingAll bgWhite marginTop borderBottom" wx:if="{{index==1}}">他们也申请了 <text class="gray">(勾选后可以一次性审批)</text></view>
       <view class="inner">
-        <view style="display: inline-block;" wx:if="{{mySelf}}">
+        <view style="display: inline-block;" wx:if="{{index!=0}}">
           <text  class=" cl marginRight" @tap="selectPerson({{index}})" wx:if="{{!item.select}}"></text>
           <text  @tap="selectPerson({{index}})" class="icon iconfont icon-gou blue marginRight" wx:else></text>
         </view>
 
         <image src="{{item.userAvatar||'../../assets/img/defaultHead.png'}}" class="headPicture" alt=""></image>
         <text>{{item.userName}}</text>
-        <view class="fr">
+        <!--pick or input-->
+        <view class="fr" wx:if="{{scoreRange}}">
           <picker @change="bindPickerChange({{index}})" value="{{selectIndex[index]}}" range="{{scoreRange}}">
             <view class="picker">
-              {{scoreRange[selectIndex[index]]}}
+
+              <text wx:if="{{selectIndex[index]}}">{{scoreRange[selectIndex[index]]}}</text>
+              <text wx:else>{{item.addScore}}</text>
               <text class="iconfont icon-arrLeft-fill"></text>
             </view>
           </picker>
         </view>
+        <view class="fr" wx:else>
+          <!--input score-->
+          <input type="number" class="tar marginTop" placeholder="输入分数" value="{{item.addScore}}" id="{{index}}" @input="getScore"/>
+        </view>
+
       </view>
     </block>
   </view>
@@ -90,16 +99,19 @@
     watch={
       staffList(val){
 
-        if(val.length!=this.count){
-          for(let i = 0;i<val.length-this.count;i++){
-            this.selectIndex.push(0);//init point
-          }
-          this.count = val.length;
-        }
-        this.$apply();
+//        if(val.length!=this.count){
+//          for(let i = 0;i<val.length-this.count;i++){
+//            this.selectIndex.push(0);//init point
+//          }
+//          this.count = val.length;
+//        }
+//        this.$apply();
       }
     }
     methods = {
+      getScore(event){
+        this.staffList[event.target.id].addScore=event.detail.value;
+      },
       selectPerson(index){
         this.staffList[index].select=!this.staffList[index].select;
 
@@ -115,7 +127,7 @@
           }
         }else{
           this.selectIndex [index]= event.detail.value;
-          this.staffList[index].selectAddScore=this.scoreRange[event.detail.value]
+          this.staffList[index].addScore=this.scoreRange[event.detail.value]
         }
 
         this.$apply();

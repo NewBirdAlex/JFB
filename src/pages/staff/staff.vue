@@ -74,13 +74,13 @@
         })
         this.topImgList = arr;
         this.staffList.forEach(item => item.pick = false)
-        if(wx.getStorageSync('approveStaff')){
+        if(wx.getStorageSync('approveStaff')){//审批人
           wx.setStorageSync('approveStaffList', arr);
           wx.removeStorageSync('approveStaff');
-        }else if(wx.getStorageSync('copyStaff')){
+        }else if(wx.getStorageSync('copyStaff')){//抄送人
           wx.setStorageSync('copyStaffList', arr);
           wx.removeStorageSync('copyStaff');
-        }else{
+        }else{//选择员工
           wx.setStorageSync('staff', arr)
         }
         wx.navigateBack();

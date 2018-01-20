@@ -33,6 +33,10 @@ let myTool = {
         }
         return numArr
         // get score select range
+    },
+    getNowDate(){
+      let data = new Date();
+      return  data.getFullYear()+'-'+(data.getMonth()+1)+'-'+data.getDate();
     }
 }
 export  {myTool}

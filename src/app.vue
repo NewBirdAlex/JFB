@@ -15,7 +15,16 @@ import http from './common/http';
 export default class extends wepy.app {
   config = {
     pages: [
+      'pages/daily/checkingRec',
+      'pages/daily/clockIn',
+
       'pages/tabList/home',
+
+      'pages/apply/praise',
+
+
+      'pages/apply/spDetail',
+
 
       'pages/apply/missionList',
 
@@ -26,7 +35,6 @@ export default class extends wepy.app {
       'pages/public/showRange',
       'pages/apply/applyMenu',
       'pages/apply/apply',
-      'pages/apply/spDetail',
       'pages/staff/staff',
       'pages/login/login',
       'pages/tabList/work',
@@ -89,13 +97,13 @@ export default class extends wepy.app {
         name:"领导表扬",
         icon:'icon-zhicheng',
         color:'#fec170',
-        router:'/praise/1'
+        router:'/pages/apply/praise?type=1'
       },
       {
         name:"管理奖扣",
         icon:'icon-guanli',
         color:'#50bee6',
-        router:'/praise/2'
+        router:'/pages/apply/praise?type=2'
       },
       {
         name:"发布公告",
@@ -110,7 +118,7 @@ export default class extends wepy.app {
         icon:'icon-dingweikaoqin',
         color:'#3da5d0',
         moduleCover:'http://image.vshi5.com/img_jfb/2017/10/13/e4550a4ba9814c519601e2b3c525fb90.png',
-        router:'/checkingin',
+        router:'pages/daily/clockIn',
         show:false
       },
       {

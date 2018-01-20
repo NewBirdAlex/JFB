@@ -198,7 +198,11 @@
         if(res.data){
           if(res.code=='200000'){
             Tips.alert('提交成功')
-            wx.navigatorback();
+            setTimeout(_=>{
+              wx.navigateBack({
+                delta: 1
+              })
+            },1000)
           }
         }else{
           Tips.alert(res.message)

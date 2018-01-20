@@ -41,7 +41,7 @@
         <text class="iconfont icon-close48 marginRight" @tap="deleteStaff({{index}})"></text>
         <image src="{{item.userAvatar||'../../assets/img/defaultHead.png'}}" class="headPicture" alt=""></image>
         <text>{{item.userName}}</text>
-        <view class="fr">
+        <view class="fr" wx:if="{{inputScore==1}}">
           <picker @change="bindPickerChange({{index}})" value="{{selectIndex[index]}}" range="{{scoreRange}}">
             <view class="picker">
               {{scoreRange[selectIndex[index]]}}
@@ -49,12 +49,14 @@
             </view>
           </picker>
         </view>
+        <input type="number" wx:else class="fr tar vam marginTop myInput" id="{{index}}" @input="getpoint"  placeholder="输入奖扣分数" style="padding-right: 2rpx"/>
       </view>
     </block>
-    <view class="bgWhite paddingAll lh40 fs28" v-if="$route.params.mission!='true'">
+    <view class="bgWhite paddingAll lh40 fs28" wx:if="{{(staffList.length>1)&&(inputScore==1)}}">
       <text>全选积分</text>
       <text class="gray">(选择可批量修改申请的积分)</text>
-      <view class="fr  cl" :class="{'border':!selAll}" @tap="selectAll"><text style="font-size: 40rpx;" class=" iconfont icon-gou blue" wx:if="{{selAll}}"></text></view>
+      <view class="fr  cl border"  @tap="selectAll" wx:if="{{!selAll}}"></view>
+      <text style="font-size: 40rpx;" @tap="selectAll" class=" iconfont icon-gou blue fr" wx:else></text>
     </view>
   </view>
 </template>
@@ -69,6 +71,10 @@
       count:0
     }
     props={
+      inputScore:{
+        type:Number,
+        default:1
+      },
       staffList:{
         type:Array,
         twoWay: true
@@ -93,6 +99,11 @@
       }
     }
     methods = {
+      getpoint(event){
+        let index = event.target.id;
+        this.staffList[index].selectAddScore=event.detail.value;
+        this.$apply();
+      },
       selectAll(){
         this.selAll=!this.selAll;
         this.$apply();
