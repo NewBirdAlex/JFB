@@ -38,7 +38,7 @@
   <view class=" wrap2 bgWhite">
     <block wx:for="{{staffList}}" wx:key="">
       <view class="inner">
-        <text class="iconfont icon-close48 marginRight" @tap="deleteStaff({{index}})"></text>
+        <text wx:if="{{showDel}}" class="iconfont icon-close48 marginRight" @tap="deleteStaff({{index}})"></text>
         <image src="{{item.userAvatar||'../../assets/img/defaultHead.png'}}" class="headPicture" alt=""></image>
         <text>{{item.userName}}</text>
         <view class="fr" wx:if="{{inputScore==1}}">
@@ -71,6 +71,10 @@
       count:0
     }
     props={
+      showDel:{
+        type:Boolean,
+        default:true
+      },
       inputScore:{
         type:Number,
         default:1

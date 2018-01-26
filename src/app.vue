@@ -15,19 +15,30 @@ import http from './common/http';
 export default class extends wepy.app {
   config = {
     pages: [
-      'pages/daily/checkingRec',
-      'pages/daily/clockIn',
+      'pages/mall/product',
 
+      'pages/mall/mall',
       'pages/tabList/home',
 
+      'pages/apply/check',
+      'pages/apply/checkDetail',
+
+
+      'pages/apply/shensuList',
+
+      'pages/apply/shensuOrder',
+
+
+      'pages/daily/philosophy',
+
+      'pages/daily/philosophyDetail',
+      'pages/apply/freePrize',
+      'pages/daily/likes',
+      'pages/daily/clockIn',
+      'pages/daily/checkingRec',
       'pages/apply/praise',
-
-
       'pages/apply/spDetail',
-
-
       'pages/apply/missionList',
-
       'pages/daily/dailyMenu',
       'pages/public/announcement',
       'pages/public/announcementList',
@@ -43,7 +54,6 @@ export default class extends wepy.app {
       'pages/approve/approveRecord',
       'pages/approve/approveList',
       'pages/approve/order',
-
       'pages/index/index'
     ],
     tabBar: {
@@ -118,7 +128,7 @@ export default class extends wepy.app {
         icon:'icon-dingweikaoqin',
         color:'#3da5d0',
         moduleCover:'http://image.vshi5.com/img_jfb/2017/10/13/e4550a4ba9814c519601e2b3c525fb90.png',
-        router:'pages/daily/clockIn',
+        router:'/pages/daily/clockIn',
         show:false
       },
       {
@@ -154,35 +164,35 @@ export default class extends wepy.app {
         //icon:'icon-hongxin',
         icon:'icon-zuanaixinkong',
         color:'#fb3333',
-        router:'love',
+        router:'/pages/daily/likes',
         show:false
       },
       {
         name:"积分申诉",
         icon:'icon-shensuzhongxin',
         color:'black',
-        router:'/shensuList',
+        router:'/pages/apply/shensuList',
         show:false
       },
       {
         name:"自由奖扣",
         icon:'icon-moneychange',
         color:'#5bb3d3',
-        router:'/freePrize',
+        router:'/pages/apply/freePrize',
         show:false
       },
       {
         name:"经营哲学",
         icon:'icon-kaohe',
         color:'#8ddfb9',
-        router:'/philosophy',
+        router:'/pages/daily/philosophy',
         show:false
       },
       {
         name:"水平考核",
         icon:'icon-kaohe',
         color:'#78c7e3',
-        router:'/kpi',
+        router:'/pages/apply/check',
         show:false
       },
       {

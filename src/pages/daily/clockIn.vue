@@ -131,7 +131,6 @@
         <view class="fs30"><strong>{{userData.userName}}</strong></view>
         <view class="fs28 gray" wx:if="{{clockInformation.groupName}}">{{clockInformation.groupName}}</view>
         <view class="fs28 red" wx:else>暂无此考勤组信息,请切换考勤组</view>
-
       </view>
       <view class="fr tm fs30" @click="openDate">
         <picker mode="date" value="{{rightTime}}" start="2015-09-01" end="{{now}}" bindchange="bindDateChange" class="fr">
@@ -141,6 +140,8 @@
         </picker>
       </view>
     </view>
+
+    <navigator url="checkingRec" ><view class="tar fs30 paddingRight marginTop blue">参看考勤榜</view></navigator>
     <!--clock inf-->
     <view class="paddingAll bgWhite fs30">
       <view class="inf  bgWhite " >
@@ -284,6 +285,7 @@
         this.checkList=[];
         this.chooseNum = num;
         this.clockInformation = {};
+        wx.setStorageSync('chooseNum', num)
         this.getClockIn();
         this.$apply();
       }
@@ -340,6 +342,10 @@
     }
 
     onLoad() {
+      //
+      if(wx.getStorageSync('chooseNum')){
+        this.chooseNum = wx.getStorageSync('chooseNum');
+      }
       let that =this;
       //location
       wx.getLocation({

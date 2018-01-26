@@ -62,8 +62,8 @@
     .fl;
     width:250rpx;
     height: 250rpx;
-    border-right: @border;
-    .borderBottom;
+    //border-right: @border;
+    //.borderBottom;
     .fs30;
     box-sizing: border-box;
     image{

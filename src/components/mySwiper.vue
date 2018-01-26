@@ -5,14 +5,28 @@
 </style>
 <template>
   <view >
-    <swiper indicator-dots="{{indicatorDots}}"
-            autoplay="{{autoplay}}" interval="{{interval}}" duration="{{duration}}">
-      <block wx:for="{{imgUrls}}" wx:key="">
-        <swiper-item>
-          <image src="{{item.cover}}" class="slide-image" mode="widthFix"></image>
-        </swiper-item>
-      </block>
-    </swiper>
+    <view wx:if="productList">
+
+      <swiper indicator-dots="{{indicatorDots}}"
+              autoplay="{{autoplay}}" interval="{{interval}}" duration="{{duration}}">
+        <block wx:for="{{productList}}" wx:key="">
+          <swiper-item>
+            <image src="{{item}}" class="slide-image" mode="widthFix"></image>
+          </swiper-item>
+        </block>
+      </swiper>
+    </view>
+    <view wx:else>
+      <swiper indicator-dots="{{indicatorDots}}"
+              autoplay="{{autoplay}}" interval="{{interval}}" duration="{{duration}}">
+        <block wx:for="{{imgUrls}}" wx:key="">
+          <swiper-item>
+            <image src="{{item.cover}}" class="slide-image" mode="widthFix"></image>
+          </swiper-item>
+        </block>
+      </swiper>
+    </view>
+
 
   </view>
 </template>
@@ -32,6 +46,9 @@
       swipeType:{
         type: [Number, String],
         default:1
+      },
+      productList:{
+        type:Array
       }
     }
     events = {
@@ -54,7 +71,9 @@
     }
 
     onLoad () {
-
+      if(this.productList){
+        return;
+      }
       this.getSwiper();
     }
   }

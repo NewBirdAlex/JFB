@@ -143,6 +143,7 @@
       this.useInf = wepy.$instance.globalData.userData;
       this.type=query.type;
       this.getScoreRange();
+      this.getLeader();
     }
   }
 </script>

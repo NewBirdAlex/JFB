@@ -101,7 +101,62 @@
         </picker>
       </view>
     </view>
+    <!--list-->
+    <view class="bgWhite">
+      <block wx:for="{{list}}" wx:key="">
+        <view class="list" wx:if="{{chooseNum}}">
+          <!--本日考勤-->
+          <text class="left fl sg tac">{{index + 1}}</text>
+          <view class="right fl">
+            <image src="{{item.userAvatar||'../../assets/img/defaultHead.png'}}" class="headPicture fl marginRight" alt=""></image>
+            <view class="fl md lh40">
+              <view class="fs30">{{item.userName}}</view>
+              <view class="gray fs28">
+                <text>{{item.checkTime[0]}}</text>
+                <text wx:if="{{item.checkStatus==0}}">缺勤</text>
+                <text wx:if="{{item.checkStatus==1}}">内勤正常上班</text>
+                <text wx:if="{{item.checkStatus==2}}">内勤正常下班</text>
+                <text wx:if="{{item.checkStatus==3}}">外勤打卡上班成功</text>
+                <text wx:if="{{item.checkStatus==4}}">外勤打卡下班成功</text>
+                <text wx:if="{{item.checkStatus==5}}">上班早到</text>
+                <text wx:if="{{item.checkStatus==6}}">上班迟到</text>
+                <text wx:if="{{item.checkStatus==7}}">下班早退</text>
+                <text wx:if="{{item.checkStatus==8}}">加班</text>
+              </view>
+            </view>
+            <view class="fr paddingRight tac marginLeft">
+              <view>{{item.score || 0}}</view>
+              <text @click="makeAwsome(item)"><i class="icon iconfont icon-dianzanmw fs36 gray"
+                                                 :class="{'blue':item.score>0}"></i></text>
+            </view>
+            <view class="fr blue sg">
+              {{item.checkTime[1]}}
+            </view>
+          </view>
+        </view>
+        <!--本月考勤-->
+        <view class="list rb" wx:else >
+          <text class="left fl sg tac">{{index + 1}}</text>
+          <view class="right fl">
+            <image src="{{item.userAvatar||'../../assets/img/defaultHead.png'}}" class="headPicture fl marginRight" alt=""></image>
+            <view class="fl md">
+              <view class="fs30">{{item.userName}}</view>
+              <view class="gray fs28" v-else>{{item.departmentName}}</view>
+            </view>
+            <view class="fr paddingRight tac marginLeft">
+              <view>{{item.score || 0}}</view>
+              <text @click="makeAwsome(item)"><text class="icon iconfont icon-dianzanmw fs36 gray"
+                                                 :class="{'blue':item.score>0}"></text></text>
+            </view>
+            <view class="fr blue sg">
+              {{item.totalScore}} 分
+            </view>
 
+          </view>
+        </view>
+      </block>
+
+    </view>
   </view>
 </template>
 
@@ -137,7 +192,9 @@
     computed = {
 
     }
-
+    onReachBottom(){
+      if(!this.lastPage) this.getList();
+    }
     methods = {
       change(){
         this.chooseNum = !this.chooseNum;
@@ -145,11 +202,12 @@
         this.getList();
         this.$apply();
 
-      },
-      bindDateChange(){
-        this.rightTime=e.detail.value;
-        this.$apply();
       }
+    }
+    bindDateChange(e){
+      this.rightTime=e.detail.value;
+      this.getList();
+      this.$apply();
     }
     reset(){
       this.lastPage = false;
@@ -170,8 +228,13 @@
           if (res.data.list.last) {
             that.lastPage = true;
           }
+          //handle check time
+          res.data.list.content.forEach(item=>{
+            let time = item.checkTime;
+            item.checkTime = time.split(' ');
+          });
           that.list = that.list.concat(res.data.list.content);
-          console.log(res.data.list.content)
+          console.log(res.data.list.content);
           if(that.needMycheck && res.data.myCheck) {
             that.needMycheck=false;
             that.myCheck = res.data.myCheck;
