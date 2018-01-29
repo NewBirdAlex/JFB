@@ -210,7 +210,7 @@ export default class extends wepy.app {
         show:false
       },
     ],
-    baseUrl: 'http://120.25.177.192/jfbApi'//test
+    baseUrl: 'http://120.78.218.32/jfbApi'//test
 //    baseUrl: 'https://jfb.vshi5.com/jfbApi'//正式
   }
 

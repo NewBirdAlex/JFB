@@ -123,6 +123,13 @@
         <text class="fr fs26">已兑换{{ shopMoreInfo.allCount-shopMoreInfo.remainCount }}件</text>
       </view>
     </view>
+
+    <view  class="marginTop paddingAll bgWhite fs26 borderBottom">
+      <text>他们都兑换了 <text class="gray">({{ shopMoreInfo.allCount-shopMoreInfo.remainCount }})</text></text>
+      <text class="fr rightArrow">
+                <text class="icon iconfont icon-xiala1"></text>
+            </text>
+    </view>
   </view>
 </template>
 
