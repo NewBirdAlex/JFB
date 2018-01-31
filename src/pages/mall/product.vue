@@ -107,7 +107,7 @@
   }
 </style>
 <template>
-  <view class=" " >
+  <view class=" grayBg" >
     <!--swiper-->
     <mySwiper  :productList.sync="swiperL"></mySwiper>
 
@@ -130,6 +130,25 @@
                 <text class="icon iconfont icon-xiala1"></text>
             </text>
     </view>
+
+    <view class=" paddingAll bgWhite fs26" @tap='openSele = true'>
+      <text>选择兑换规格</text>
+      <text class="fr rightArrow">
+                <text class="icon iconfont icon-xiala1"></text>
+            </text>
+    </view>
+
+    <view class=" bgWhite">
+      <view class="marginTop fs30 paddingAll">
+        商品详情
+      </view>
+      <view class="show paddingAll lh40 fs30" >
+        <rich-text  nodes="{{detail.shopDetail}}"></rich-text>
+      </view>
+    </view>
+
+    <view class="exchange fs36" @tap='operation'>确认兑换</view>
+
   </view>
 </template>
 

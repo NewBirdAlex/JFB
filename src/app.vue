@@ -215,7 +215,7 @@ export default class extends wepy.app {
   }
 
   constructor () {
-    super()
+    super();
     this.use('promisify');
     this.use('requestfix');
   }
