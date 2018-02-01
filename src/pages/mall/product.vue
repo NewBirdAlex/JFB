@@ -105,6 +105,23 @@
   .sele-option{
     transform: scaleY(1);
   }
+
+  .productSize{
+    display: inline-block;
+    display: inline-block;
+    font-size: 14px;
+    padding: 0 12px;
+    height: 33px;
+    line-height: 33px;
+    margin-left: 0.4rem;
+    text-align: center;
+    box-sizing: border-box;
+    border-radius: 4px;
+    color: #656b79;
+    background-color: #f6f8fa;
+    -webkit-box-shadow: 0 0 1px #b8bbbf;
+    box-shadow: 0 0 1px #b8bbbf;
+  }
 </style>
 <template>
   <view class=" grayBg" >
@@ -131,7 +148,7 @@
             </text>
     </view>
 
-    <view class=" paddingAll bgWhite fs26" @tap='openSele = true'>
+    <view class=" paddingAll bgWhite fs26" @tap='open'>
       <text>选择兑换规格</text>
       <text class="fr rightArrow">
                 <text class="icon iconfont icon-xiala1"></text>
@@ -144,6 +161,34 @@
       </view>
       <view class="show paddingAll lh40 fs30" >
         <rich-text  nodes="{{detail.shopDetail}}"></rich-text>
+      </view>
+    </view>
+    <!--mask-->
+    <div class="mask" wx:if="{{openSele}}" @tap="open"></div>
+
+    <!--size-->
+    <view class="sele" :class="{'sele-option':openSele}">
+      <view class="part1">
+        <view class="cover">
+          <image src="{{detail.shopCover}}"></image>
+        </view>
+        <view class="cont">
+          <view class="branch">{{ selectProduct.score}} 分</view>
+          <view class="surplus">剩余{{ selectProduct.remainCount}} 件</view>
+          <view class="explain">请选择：按商品规格兑换</view>
+        </view>
+        <view class="close">
+          <text class="iconfont icon-close48" @tap="open"></text>
+        </view>
+      </view>
+      <view class="part2">
+        <view class="tit">规格：</view>
+        <view class="options">
+          <!--<mt-button v-for='(item,i) in shopSpecs' :key="i"  @click='seleSpec(item,i)' class='btn' :type="item.active?'primary':'default'" size="small">{{item.specName}}</mt-button>-->
+            <block wx:for="{{shopSpecs}}" wx:key="">
+              <text class="productSize">{{item.specName}}</text>
+            </block>
+        </view>
       </view>
     </view>
 
@@ -188,7 +233,9 @@
     }
 
     methods = {
-
+      open(){
+          this.openSele = !this.openSele;
+      }
     }
     async getDetail(){
 
