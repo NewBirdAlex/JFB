@@ -121,6 +121,10 @@
     background-color: #f6f8fa;
     -webkit-box-shadow: 0 0 1px #b8bbbf;
     box-shadow: 0 0 1px #b8bbbf;
+   &.active{
+     background: @blue;
+     color:white;
+   }
   }
 </style>
 <template>
@@ -186,7 +190,7 @@
         <view class="options">
           <!--<mt-button v-for='(item,i) in shopSpecs' :key="i"  @click='seleSpec(item,i)' class='btn' :type="item.active?'primary':'default'" size="small">{{item.specName}}</mt-button>-->
             <block wx:for="{{shopSpecs}}" wx:key="">
-              <text class="productSize">{{item.specName}}</text>
+              <text class="productSize" :class="{'active':item.active}" @tap='seleSpec({{item}},{{index}})'>{{item.specName}}</text>
             </block>
         </view>
       </view>
@@ -233,6 +237,25 @@
     }
 
     methods = {
+      operation(){
+        if(!this.openSele){this.openSele=true;return}
+        let ableSubmit = false;
+        this.shopSpecs.forEach(item=>item.active?ableSubmit=true:'');
+        if(ableSubmit){
+          this.exchange();
+        }else{
+          this.openSele=true;
+        }
+      },
+      seleSpec(item,index){
+        if(!item.active){
+          this.selectProduct=item;
+          this.shopSpecs.forEach(item=>item.active=false);
+          let obj = this.shopSpecs[index];
+          obj.active=true;
+        this.$apply();
+        }
+      },
       open(){
           this.openSele = !this.openSele;
       }
@@ -250,6 +273,19 @@
         this.shopSpecs.forEach(item=>item.active=false);
         this.selectProduct = res.data.shopSpecs[0];//default select product
         this.$apply();
+      }
+    }
+    async exchange(){
+      let res =await http.post('/shopbuylist/toGetShopByUser',{
+        specsId:this.selectProduct.id,
+      });
+      if(res.code==200000){
+        tips.alert('兑换成功');
+        setTimeout(()=>{
+          wx.navigateBack()
+        },1000);
+      }else{
+        tips.alert(res.message);
       }
     }
     props = {
