@@ -15,6 +15,8 @@ import http from './common/http';
 export default class extends wepy.app {
   config = {
     pages: [
+      'pages/mall/exchangeRec',
+
       'pages/mall/product',
 
       'pages/mall/mall',
