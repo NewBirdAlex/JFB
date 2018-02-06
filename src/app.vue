@@ -15,12 +15,15 @@ import http from './common/http';
 export default class extends wepy.app {
   config = {
     pages: [
+      'pages/information/structure',
+      'pages/tabList/home',
+
+      'pages/mall/lottery',
       'pages/mall/exchangeRec',
 
       'pages/mall/product',
 
       'pages/mall/mall',
-      'pages/tabList/home',
 
       'pages/apply/check',
       'pages/apply/checkDetail',
@@ -49,6 +52,7 @@ export default class extends wepy.app {
       'pages/apply/applyMenu',
       'pages/apply/apply',
       'pages/staff/staff',
+      'pages/staff/resume',
       'pages/login/login',
       'pages/tabList/work',
       'pages/tabList/board',
