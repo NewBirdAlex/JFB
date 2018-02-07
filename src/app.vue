@@ -15,6 +15,8 @@ import http from './common/http';
 export default class extends wepy.app {
   config = {
     pages: [
+      'pages/staff/baseInformation',
+
       'pages/information/structure',
       'pages/tabList/home',
 

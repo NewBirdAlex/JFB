@@ -88,7 +88,7 @@
 
     methods = {
       go(item){
-        wx.navigateTo({url:``});
+        wx.navigateTo({url:`baseInformation?id=`+this.userInf.userId});
       }
     }
     props = {
