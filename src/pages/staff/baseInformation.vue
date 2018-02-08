@@ -1,6 +1,6 @@
 
 <template>
-  <view class=" " >
+  <view class=" grayBg" >
     <view class="head  tac bgWhite paddingAll borderBottom">
       <div>
         <image src="{{userInf.userAvatar||'../../assets/img/defaultHead.png'}}"  alt=""></image>
@@ -34,7 +34,58 @@
       <text class="fr">+{{userInf.eduMap.eduScore}}</text>
     </view>
 
-    
+
+    <view class="paddingLeft  borderBottom bgWhite overflow mulItem fs30" wx:if="{{userInf.techList}}">
+      <view class="left paddingTop paddingBottom">
+        <text class="icon iconfont icon-zhicheng fs36"></text>
+        <text>职称：</text>
+      </view>
+      <view class="right">
+        <block wx:for="{{userInf.techList}}" wx:key="">
+          <view class=" borderBottom paddingAll" >
+            {{item.techTitle}}
+            <text class="fr">+{{item.techScore}}分</text>
+          </view>
+        </block>
+
+        <view  wx:if="{{!userInf.techList.length}}" class="gray lh50 marginTop"> 暂无</view>
+      </view>
+    </view>
+
+    <view class="paddingLeft  borderBottom bgWhite overflow mulItem fs30"  wx:if="{{userInf.honorList}}">
+      <view class="left paddingTop paddingBottom">
+        <text class="icon iconfont icon-renwu1 fs36"></text>
+        <text>荣誉：</text>
+      </view>
+      <view class="right">
+        <block wx:for="{{userInf.honorList}}" wx:key="">
+          <view class=" borderBottom paddingAll" >
+            {{item.honorTitle}}
+            <text class="fr">+{{item.honorScore}}分</text>
+          </view>
+        </block>
+        <view  wx:if="{{!userInf.honorList.length}}" class="gray lh50 marginTop"> 暂无</view>
+
+      </view>
+    </view>
+
+
+    <view class="paddingLeft  borderBottom bgWhite overflow mulItem fs30" wx:if="{{userInf.skillList}}">
+      <view class="left paddingTop paddingBottom">
+        <text class="icon iconfont icon-techang fs36"></text>
+        <text>特长：</text>
+      </view>
+      <view class="right">
+        <block wx:for="{{userInf.skillList}}" wx:key="">
+          <view class=" borderBottom paddingAll" >
+            {{item.skillTitle}}
+            <text class="fr">+{{item.skillScore}}分</text>
+          </view>
+        </block>
+
+        <view  wx:if="{{!userInf.skillList.length}}" class="gray lh50 marginTop"> 暂无</view>
+      </view>
+    </view>
   </view>
 </template>
 
@@ -81,7 +132,6 @@
     onLoad(query) {
 
       this.id = query.id;
-      this.id = 3183;
       this.getDetail();
     }
   }

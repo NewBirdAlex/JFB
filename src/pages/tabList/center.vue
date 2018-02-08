@@ -1,6 +1,6 @@
 
 <template>
-  <view class=" " >
+  <view class="grayBg " >
       <view class="paddingAll">
         <!--顶部-->
         <view class="pt">

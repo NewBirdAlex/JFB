@@ -15,10 +15,16 @@ import http from './common/http';
 export default class extends wepy.app {
   config = {
     pages: [
+      'pages/daily/dailyMenu',
+
+      'pages/tabList/home',
+
+      'pages/daily/write',
+
+
       'pages/staff/baseInformation',
 
       'pages/information/structure',
-      'pages/tabList/home',
 
       'pages/mall/lottery',
       'pages/mall/exchangeRec',
@@ -46,7 +52,6 @@ export default class extends wepy.app {
       'pages/apply/praise',
       'pages/apply/spDetail',
       'pages/apply/missionList',
-      'pages/daily/dailyMenu',
       'pages/public/announcement',
       'pages/public/announcementList',
       'pages/public/publicMission',

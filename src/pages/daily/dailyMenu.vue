@@ -3,7 +3,7 @@
   <view>
     <view class="overflow bgWhite" >
       <block wx:for="{{list}}" wx:key="">
-        <view class="tac item" @tap="go(item)">
+        <view class="tac item" @tap="go({{item}})">
           <image src="{{item.modelCover}}" alt=""></image>
           <view class="">{{item.modelTitle}}</view>
         </view>
@@ -34,7 +34,10 @@
     }
 
     methods = {
-
+      go(item){
+        wx.setStorageSync('diaryInf', item)
+        wx.navigateTo({url:'write'})
+      }
     }
     props = {
 
