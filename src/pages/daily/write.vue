@@ -9,8 +9,8 @@
       <block wx:for="{{inputList}}" wx:key="">
         <view class="paddingTop paddingBottom paddingRight borderBottom fs30 overflow" >
           <text class="lp fl">{{item.title}}</text>
-          <input type="text" placeholder="请输入" value="{{item.content}}" class="rp" wx:if="{{item.type==1}}"/>
-          <textarea name="" id="" class="rp mul" value="{{item.content}}" placeholder="请输入" wx:else ></textarea>
+          <input type="text" placeholder="请输入" value="{{item.content}}" @input="setValue" id="{{index}}" class="rp" wx:if="{{item.type==1}}"/>
+          <textarea name="" id="" class="rp mul" value="{{item.content}}" @input="setValue" id="{{index}}" placeholder="请输入" wx:else ></textarea>
         </view>
       </block>
 
@@ -58,6 +58,9 @@
     }
 
     methods = {
+      setValue(){
+
+      },
       subData(){
         let cansubmit = true;
         this.inputList.forEach(item=>{
