@@ -178,7 +178,7 @@
       <text :class="{active:spType}" @tap="changeType">我收到的</text>
       <text :class="{active:!spType}" @tap="changeType">我发出的</text>
     </view>
-    here is list
+    here is list dfdf
   </view>
 </template>
 
