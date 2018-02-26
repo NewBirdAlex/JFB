@@ -4,19 +4,19 @@
       <view class="paddingAll">
         <!--顶部-->
         <view class="pt">
-          <view class="borderBottom overflow paddingBottom marginBottom">
-            <image class="phead" wx:if="{{baseInf.userAvatar}}" src="{{baseInf.userAvatar}}" alt=""></image>
-            <image src="../../assets/img/defaultHead.png" wx:if="{{!baseInf.userAvatar}}" class="phead" alt=""></image>
-            <view class="right">
-              <view class="fs30"> {{baseInf.userName}}</view>
-              <view class="gray fs26">
-                {{baseInf.departmentName}} {{baseInf.jobTitle}}
-                <text class="fr iconfont icon-right"></text>
+          <navigator url="../staff/baseDate?id={{baseInf.userId}}" >
+            <view class="borderBottom overflow paddingBottom marginBottom">
+              <image class="phead" src="{{baseInf.userAvatar||'../../assets/img/defaultHead.png'}}" alt=""></image>
+              <view class="right">
+                <view class="fs30"> {{baseInf.userName}}</view>
+                <view class="gray fs26">
+                  {{baseInf.departmentName}} {{baseInf.jobTitle}}
+                  <text class="fr iconfont icon-right"></text>
+                </view>
+                <view class="fs28">积分：{{baseInf.userScore}}   基础积分：{{baseInf.baseScore}}</view>
               </view>
-              <view class="fs28">积分：{{baseInf.userScore}}   基础积分：{{baseInf.baseScore}}</view>
             </view>
-          </view>
-
+          </navigator>
           <canvas style="width: 100%;height: 500rpx"  canvas-id="main"></canvas>
 
         </view>
@@ -24,18 +24,23 @@
         <!--导航-->
         <view class="pt marginTop opItem fs28">
           <view class="item">
-            <text class="leftPart  iconfont icon-phone"></text>
+            <navigator url="../information/structure" >
+              <text class="leftPart  iconfont icon-phone"></text>
               <view class="rightPart">
                 企业组织架构
                 <text class="fr iconfont icon-right"></text>
               </view>
+            </navigator>
           </view>
+
           <view class="item">
-            <text class="leftPart  iconfont icon-phone"></text>
-            <view class="rightPart">
-              我的任务
-              <text class="fr iconfont icon-right"></text>
-            </view>
+            <navigator url="../apply/missionList?type=2" >
+              <text class="leftPart  iconfont icon-phone"></text>
+              <view class="rightPart">
+                我的任务
+                <text class="fr iconfont icon-right"></text>
+              </view>
+            </navigator>
           </view>
           <view class="item">
             <text class="leftPart  iconfont icon-phone"></text>

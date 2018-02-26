@@ -184,7 +184,8 @@
 
     }
 
-    onLoad() {
+    onLoad(query) {
+      if(query.type) this.type = query.type;
       this.getList();
     }
   }

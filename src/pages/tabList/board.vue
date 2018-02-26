@@ -15,13 +15,14 @@
       <block wx:for="{{list}}" wx:key="">
         <view class="bgWhite listWrap tal " >
           <text>
-            <text wx:if="{{index>=3}}">{{index+1}}</text>
-            <text class="iconfont " :class="{'icon-jin':index==0,'icon-jin icon-tong':index==1,'icon-yin':index==2}"
-                  wx:if="{{index<3}}"></text>
+            <text>{{index+1}}</text>
+            <!--<text wx:if="{{index>=3}}">{{index+1}}</text>-->
+            <!--<text class="iconfont " :class="{'icon-jin':index==0,'icon-jin icon-tong':index==1,'icon-yin':index==2}" wx:if="{{index<3}}"></text>-->
           </text>
           <view>
-            <image src="{{item.userAvatar||'../../assets/img/defaultHead.png'}}"  class="headPicture" alt=""></image>
-            <!--<image src="../../assets/img/defaultHead.png" wx:else class="headPicture" alt=""></image>-->
+            <navigator url="../staff/baseDate?id={{item.appUserId}}" >
+              <image src="{{item.userAvatar||'../../assets/img/defaultHead.png'}}"  class="headPicture" alt=""></image>
+            </navigator>
           </view>
           <text class="theName">{{item.userName}}</text>
           <text>{{item.addScore||0}}</text>

@@ -10,6 +10,18 @@
       </block>
 
     </view>
+    <view class="bar">
+      <view>
+        <view>写日记</view>
+        <view>
+          <navigator url="dailyList" >
+          看日记
+          </navigator>
+        </view>
+        <view>日记统计</view>
+      </view>
+
+    </view>
   </view>
 </template>
 
@@ -90,6 +102,20 @@
       /*display: inline-block;*/
       font-size: 70rpx;
       color: white;
+    }
+
+  }
+  .bar{
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    left:0;
+    >view{
+      display: flex;
+      view{
+        flex: 1;
+        .tac;
+      }
     }
   }
 </style>

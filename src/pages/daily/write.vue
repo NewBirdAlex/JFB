@@ -30,7 +30,7 @@
   import wepy from 'wepy';
   import input from '../../mixins/input';
   import http from '../../common/http';
-  import tips from '../../common/tips';
+  import Tips from '../../common/tips';
   import uploadImage from '../../components/uploadImage'
   import copyStaff from '../../components/copyStaff'
 
@@ -58,16 +58,19 @@
     }
 
     methods = {
-      setValue(){
-
+      setValue(event){
+        console.log(event)
+        let index = event.target.id;
+        this.inputList[index].content=event.detail.value;
+        this.$apply();
       },
-      subData(){
+      async subData(){
         let cansubmit = true;
         this.inputList.forEach(item=>{
           if(!item.content) cansubmit=false;
         })
         if(!cansubmit) {
-          this.$toast('请填写完整内容');
+          Tips.alert('请填写完整内容');
           return;
         }
         let that = this;
@@ -78,21 +81,22 @@
         }
         let content = '['+str+']';
         console.log(content)
-        this.$http.post('/dailyRecord/submitDaily', {
+        let res =await http.post('/dailyRecord/submitDaily', {
           checkUser: this.chaosongId,
           content: content,
           pics:this.imgList,
           modelId: this.detail.id,
-        })
-          .then(function (response) {
-            if(response.data.code=='200000'){
-              that.$toast('发布日志成功');
-              that.$router.go(-1)
-            }
-          })
-          .catch(function (error) {
-            console.log(error);
-          });
+        });
+        if(res.code == '200000'){
+          Tips.alert('提交成功');
+          setTimeout(_=>{
+            wx.navigateBack({
+              delta: 1
+            })
+          },1000)
+        }else{
+          Tips.alert(res.message)
+        }
       }
     }
     props = {

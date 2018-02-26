@@ -62,26 +62,11 @@
             right:this.userInf.userPhone,
             router:''
           },
-//                    {
-//                        name:'工作日志',
-//                        right:'',
-//                        router:''
-//                    },
           {
             name:'积分日志',
             right:'',
             router:'/manageDiary/'+this.userInf.userId
           },
-//                    {
-//                        name:'抽奖记录',
-//                        right:'',
-//                        router:''
-//                    },
-//                    {
-//                        name:'积分兑换记录',
-//                        right:'',
-//                        router:''
-//                    }
         ]
       }
     }
