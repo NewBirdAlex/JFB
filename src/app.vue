@@ -19,6 +19,7 @@ export default class extends wepy.app {
 
       'pages/daily/dailyMenu',
       'pages/daily/dailyList',
+      'pages/daily/dailyCount',
 
 
       'pages/daily/write',

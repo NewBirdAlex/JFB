@@ -18,7 +18,7 @@
           看日记
           </navigator>
         </view>
-        <view>日记统计</view>
+        <view><navigator url="dailyCount" >日记统计 </navigator></view>
       </view>
 
     </view>
