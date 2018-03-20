@@ -1,7 +1,7 @@
 
 <template>
   <view class=" " >
-    <view class="">
+    <view class="grayBg">
       <!--nav-->
       <view class="gray listWrap firstList" style="font-weight: bold">
         <text>排名</text>

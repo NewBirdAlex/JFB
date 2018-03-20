@@ -1,6 +1,6 @@
 
 <template>
-  <view>
+  <view class="grayBg wrap">
     <view class="overflow bgWhite" >
       <block wx:for="{{list}}" wx:key="">
         <view class="tac item" @tap="go({{item}})">
@@ -73,6 +73,9 @@
 
 <style lang="less">
   @import "../../assets/css/common";
+  .wrap{
+    min-height: 100vh;
+  }
   .item{
     .fl;
     width:250rpx;
@@ -110,6 +113,7 @@
     bottom: 0;
     width: 100%;
     left:0;
+    padding: 20rpx 0;
     >view{
       display: flex;
       view{

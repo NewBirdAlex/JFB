@@ -15,7 +15,9 @@ import http from './common/http';
 export default class extends wepy.app {
   config = {
     pages: [
+
       'pages/tabList/home',
+      'pages/login/loginByWx',
 
       'pages/daily/dailyMenu',
       'pages/daily/dailyList',
@@ -31,6 +33,7 @@ export default class extends wepy.app {
       'pages/information/structure',
 
       'pages/mall/lottery',
+      'pages/mall/lotteryRec',
       'pages/mall/exchangeRec',
 
       'pages/mall/product',
@@ -216,17 +219,18 @@ export default class extends wepy.app {
         name:"积分商城",
         icon:'icon-lianmengkeyongjifen',
         color:'#fa6e77',
-        router:'/shop',
+        router:'/pages/mall/mall',
         show:false
       },
       {
         name:"积分抽奖",
         icon:'icon-choujiang',
         color:'#feaa3b',
-        router:'/lottery',
+        router:'/pages/mall/lottery',
         show:false
       },
     ],
+    //baseUrl: 'http://192.168.0.102:8888/'//利民
     baseUrl: 'http://120.78.218.32/jfbApi'//test
 //    baseUrl: 'https://jfb.vshi5.com/jfbApi'//正式
   }
@@ -241,14 +245,11 @@ export default class extends wepy.app {
   onLaunch() {
     // init user data
     if(!wx.getStorageSync('userData')){
-      wx.reLaunch({
-        url: '/pages/login/login'
-      });
+      this.getUserInfo();
       return
     }else{
       wepy.$instance.globalData.userData=wx.getStorageSync('userData');
     }
-
     this.testAsync()
   }
 
@@ -265,17 +266,30 @@ export default class extends wepy.app {
     console.log(data)
   }
 
-  getUserInfo(cb) {
-    const that = this
+  async getUserInfo(cb) {
+
+    const that = this;
     if (this.globalData.userInfo) {
+      console.log(this.globalData.userInfo)
+
       return this.globalData.userInfo
     }
-    wepy.getUserInfo({
-      success (res) {
-        that.globalData.userInfo = res.userInfo
-        cb && cb(res.userInfo)
-      }
-    })
+    let wxcode =await wepy.login();
+    console.log('wxcode='+wxcode.code);
+    let userInfo = await wepy.getUserInfo();
+    that.globalData.userInfo = userInfo.userInfo;
+    let data = await http.post('/byWxCodeMicro',{
+      "code": wxcode.code,
+      "wxUserInfoStr": JSON.stringify(userInfo.userInfo)
+    });
+    if(data.code==600000){
+
+      //save openid
+      wx.setStorageSync('opid', data.data);
+      wx.navigateTo({
+        url: '/pages/login/loginByWx'
+      });
+    }
   }
 }
 </script>

@@ -147,6 +147,7 @@
     methods = {
       bindDateChange(e){
         this.rightTime=e.detail.value;
+        this.reset();
         this.getList();
         this.$apply();
       },

@@ -166,7 +166,8 @@
           if(res.data.isLastPage){
             that.lastPage=true;
           }
-          that.list=that.list.concat(res.data.list) ;
+          if(res.data.List){that.list=that.list.concat(res.data.list)}
+          if(res.data.content){that.list=that.list.concat(res.data.content)}
           that.loading = false;
           this.$apply();
         }

@@ -16,7 +16,7 @@
       .paddingAll;
       transform: translate(-50%,-50%);
       width: 500rpx;
-      background: url("../assets/img/colorBg.jpg") ;
+      //background: url("../../assets/img/colorBg.jpg") ;
       background-size: 100% auto;
       color: white;
       .fs36;
@@ -255,10 +255,12 @@
     <view class="rec borderRadius">
       <view class="borderRadius">
         <view class="">
-          <view tag="div" to="/lotteryRec" class="paddingTop paddingRight paddingBottom borderBottom fs30 wdYellow">
-            我的抽奖记录
-            <text class="icon iconfont icon-xiala1 fs30 fr"></text>
-          </view>
+          <navigator url="../mall/lotteryRec" >
+            <view tag="div" to="/lotteryRec" class="paddingTop paddingRight paddingBottom borderBottom fs30 wdYellow">
+              我的抽奖记录
+              <text class="icon iconfont icon-right fs30 fr"></text>
+            </view>
+          </navigator>
           <view class="roll">
             <block wx:for="{{prizeList}}" wx:key="">
               <view class="item  tac fs28 bgWhite"
@@ -289,7 +291,10 @@
     <!--recording-->
     <view class="wp1 marginAll myLottery marginTop marginBottom borderRadius" v-if="recordAL&&recordAL.length">
       <view class="wp2 spc borderRadius">
-        <view tag='div' to='/lotteryRec?type=me' class="title">中奖记录</view>
+        <navigator url="../mall/lotteryRec?type=me" >
+
+          <view tag='div' to='/lotteryRec?type=me' class="title">中奖记录</view>
+        </navigator>
         <block wx:for="{{recordAL}}" wx:key="">
           <view class="flexTable fs30">
             <view>{{ item.userName?item.userName:'***' }}</view>
@@ -310,6 +315,14 @@
       </view>
     </view>
 
+    <view class="result" wx:if="{{showResult}}">
+      <view class="inner tac" style="background: url('../../assets/img/colorBg.jpg');background-size: 100% 100%;">
+        <view>{{ prize.groupTitle }}</view>
+        <view><text class="icon iconfont icon-Smile"></text></view>
+        <view>{{ prize.luckyShopName }}</view>
+        <view class="goon" @tap="continuer">继续抽奖</view>
+      </view>
+    </view>
 
   </view>
 </template>
@@ -346,6 +359,15 @@
     }
 
     methods = {
+      continuer(){
+        this.rollArr = [0, 1, 2, 5, 8, 7, 6, 3];
+        this.times = 0;
+        this.speed = 500;
+        this.showResult = false;
+        this.$apply();
+        this.recordByAll();
+        this.getLuckListByUser();
+      },
       start(){
         if (this.canClick) {
           this.getLuckDrawRes();
@@ -373,52 +395,64 @@
       if(res.code==200000){
         this.init();
         this.canClick = false;
-        this.roll();
         this.prize = res.data.luckShop;
         this.$apply();
+        this.roll();
+
       }else{
         tips.alert(res.message);
       }
     }
     brake(){
-      console.log('break')
+      let that = this;
       this.speed = this.speed > 300?300:(this.speed + 50);
       this.maskIndex = this.maskIndex+2 > this.rollArr.length?0:this.maskIndex + 1;
       this.activeMask(this.maskIndex);
       let nowId = this.prizeList[this.rollArr[this.maskIndex]].id;
       if(this.speed >= 300 && this.prize.id == nowId){
         this.showResult = true;
+        this.$apply();
         return;
       }else{
         clearTimeout(this.timer);
-        this.timer = setTimeout(this.brake,this.speed);
+        this.timer = setTimeout(function(){that.brake()},this.speed);
       }
       this.$apply();
     }
     roll() {
+      clearTimeout(this.timer);
       let that = this;
-      //clearTimeout(that.timer);
       that.times++;
       that.speed = that.speed < 60 ?60:(that.speed - (130/that.times));
-      if (that.times >= 50) {
-        this.prizeList.forEach((v,i)=>{
-          if(v.id == this.prize.id){
+      if (that.times >= 50) {// stop rolling
+        let bol = false;
+        for(let i = 0; i<this.prizeList.length;i++){
+          if(this.prizeList[i].id == this.prize.id){
             this.prize.index = i;
             this.brake();
-            return;
+            bol = true;
+            break;
           }
-        });
+        }
+        if(bol) return;
+//        this.prizeList.forEach((item,index)=>{
+//          if(item.id == this.prize.id){
+//            this.prize.index = index;
+//            console.log('end 50 times');
+//
+//            this.brake();
+//            return;
+//          }
+//        });
       }
-      console.log("第几次"+that.maskIndex);
       that.maskIndex = that.maskIndex+2 > 8?0:that.maskIndex + 1;
-
-      //this.activeMask(this.maskIndex);
+      this.activeMask(this.maskIndex);
       this.$apply();
-      that.timer = setTimeout(that.roll,that.speed)
+      that.timer = setTimeout(function(){that.roll();},that.speed)
 
     }
     activeMask(num) {
-      console.log("activemask"+num)
+
       this.prizeList.forEach(item => item.light = false);
       let act = this.rollArr[num];
       //this.$set(this.prizeList[act],'light',true);
@@ -444,6 +478,7 @@
         })
         res.data.drawShop.splice(4,0,[]);
         this.prizeList = res.data.drawShop;
+        this.canClick=true;
         this.$apply();
       }
     }
